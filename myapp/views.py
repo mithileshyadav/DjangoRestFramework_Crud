@@ -33,3 +33,19 @@ class StudentAPI_Create_Get(APIView):
             return Response(serialize_data, status=status.HTTP_200_OK)
         else:
             return Response({'No Data Found!'}, status=status.HTTP_200_OK)
+
+
+    # POST DATA FOR SAVE DATA
+    def post(self, request, format = None):
+        # code for create new data
+        print(request.data, '+++++++++++++++++ post data \n')
+        serialize = self.serializer_class(data=request.data)
+        if serialize.is_valid():
+            serialize.save()
+            current_data = serialize.data
+            return Response(current_data, status=status.HTTP_201_CREATED)
+        
+        else:
+            return Response(serialize.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            
